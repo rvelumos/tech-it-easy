@@ -173,10 +173,10 @@ function countInventoryToSell(televisions){
   let soldWrapper = document.createElement("span");
   let sold = document.createTextNode(count.toString());
   soldWrapper.appendChild(sold);
-  document.getElementById("revenue").appendChild(soldWrapper);
+  document.getElementById("to-sell").appendChild(soldWrapper);
 
   /* Opdracht 1b */
-  document.getElementById("revenue").style.backgroundColor="red";
+  document.getElementById("to-sell").style.backgroundColor="red";
 
 }
 countInventoryToSell(inventory);
@@ -199,9 +199,9 @@ const televisionsHasAmbilight = inventory.filter((ambilightTelevision) =>{
 });
 
 /* 2d */
-//const sortedTelevisions = inventory.sort((televisieA, televisieB) => {
-  //return televisieA.price - televisieB.price;
-//});
+const sortedTelevisions = inventory.sort((televisionA, televisionB) => {
+  return televisionA.price - televisionB.price;
+});
 
 /* Opdracht 3 */
 
@@ -209,7 +209,7 @@ const televisionsHasAmbilight = inventory.filter((ambilightTelevision) =>{
 function revenueTarget(televisions){
   let amount = 0;
   for(const television of televisions) {
-      amount = amount + television.originalStock;
+      amount = amount + television.originalStock*television.price;
   }
 
   let targetRevenueWrapper = document.createElement("span");
@@ -232,8 +232,8 @@ function salesSoFar(televisions) {
   let salesWrapper = document.createElement("span");
   let salesAmount = document.createTextNode(sales.toString());
   salesWrapper.appendChild(salesAmount);
-  document.getElementById("to-sell").appendChild(salesWrapper);
-  document.getElementById("to-sell").style.backgroundColor="green";
+  document.getElementById("revenue").appendChild(salesWrapper);
+  document.getElementById("revenue").style.backgroundColor="green";
 }
 
 salesSoFar(inventory);
@@ -255,15 +255,14 @@ function showTvTypes(tvTypes, limit){
 
 /* 5a */
 function showTelevisionDetails(televisionDetails){
-    return televisionDetails.brand + televisionDetails.type + " - " + televisionDetails.name + " " + formatScreenSize(televisionDetails.availableSizes) + " \r\n " ;
+    return televisionDetails.brand + televisionDetails.type + " - " + televisionDetails.name + "\r\n";
 }
 
 //showTelevisionDetails();
 
 /* 5b */
 function formatPrice(value){
-    const output = "€" + value + ",-";
-    return output;
+  return "€" + value + ",-";
 }
 
 /* 5c */
@@ -281,9 +280,7 @@ function formatScreenSize(television){
 function wrapLayout(television){
     const wrapTelevisionLayout = document.createElement("div");
     wrapTelevisionLayout.setAttribute("Id", "wrapTvLayout");
-    wrapTelevisionLayout.setAttribute('style', 'white-space: pre;');
-    wrapTelevisionLayout.textContent = television.brand + " " +
-        television.type + " - " + television.name + "\r\n" +
+    wrapTelevisionLayout.textContent = showTelevisionDetails(television) +
         formatPrice(television.price) + "\r\n" +
         formatScreenSize(television.availableSizes);
     document.getElementById("output-tv-types").appendChild(wrapTelevisionLayout);
